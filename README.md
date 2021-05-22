@@ -6,3 +6,5 @@ py pip install django
 
 myvenv
 cd Sinbike\djangoproject\myvenv\Scripts activate
+
+bootstrap-4.5.3

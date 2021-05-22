@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from .models import Question
+from django.utils import timezone
+from .forms import QuestionForm
 
 def main(request):
     """
@@ -14,6 +16,30 @@ def detail(request, question_id):
     """
     Display Question Content
     """
-    question = Question.objects.get(id=question_id)
+    question = get_object_or_404(Question, pk=question_id)
     context = {'question': question}
     return render(request, 'sinbike_CX/question_detail.html', context)
+
+def answer_create(request, question_id):
+    """
+    Answer
+    """
+    question = get_object_or_404(Question, pk=question_id)
+    question.answer_set.create(content=request.POST.get('content'), create_date=timezone.now())
+    return redirect('support:detail', question_id=question.id)
+
+def question_create(request):
+    """
+    Create
+    """
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.create_date = timezone.now()
+            question.save()
+            return redirect('support:main')
+    else:
+        form = QuestionForm()
+    context = {'form':form}
+    return render(request, 'sinbike_CX/question_form.html', context)
