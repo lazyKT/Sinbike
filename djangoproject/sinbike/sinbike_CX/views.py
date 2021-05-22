@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from .models import Question
 from django.utils import timezone
-from .forms import QuestionForm
+from .forms import QuestionForm, AnswerForm
 
 def main(request):
     """
@@ -25,8 +25,17 @@ def answer_create(request, question_id):
     Answer
     """
     question = get_object_or_404(Question, pk=question_id)
-    question.answer_set.create(content=request.POST.get('content'), create_date=timezone.now())
-    return redirect('support:detail', question_id=question.id)
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.create_date = timezone.now()
+            question.save()
+            return redirect('support:detail', question_id=question.id)
+    else:
+        form = AnswerForm()
+    context = {'question':question, 'form':form}
+    return render(request, 'sinbike_CX/question_detail.html', context)
 
 def question_create(request):
     """

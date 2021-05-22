@@ -5,7 +5,28 @@
     <h5 class="my-3 border-bottom pb-2">Create</h5>
     <form method="post" class="post-form my-3">
         {% csrf_token %}
-        {{ form.as_p }}
+        <!-- Alert Start -->
+        {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+            {% for field in form %}
+                {% if field.errors %}
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% endif %}
+        <!-- Alert End -->
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" class="form-control" name="subject" id="subject"
+                    value="{{ form.subject.value|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" name="content"
+                    id="content" rows="10">{{ form.content.value|default_if_none:'' }}</textarea>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
