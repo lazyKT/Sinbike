@@ -7,14 +7,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
-        <!-- pybo CSS -->
+        <!-- sinbike_CX CSS -->
         <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
         <title>Hello, Sinbike!</title>
     </head>
     <body>
+        {% include "navbar.html" %}
         <!-- Start of base template -->
         {% block content %}
         {% endblock %}
         <!-- End of base template -->
+        <!-- jQuery JS -->
+        <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+        <!-- Bootstrap JS -->
+        <script src="{% static 'bootstrap.min.js' %}"></script>
     </body>
 </html>

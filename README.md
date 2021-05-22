@@ -8,3 +8,4 @@ myvenv
 cd Sinbike\djangoproject\myvenv\Scripts activate
 
 bootstrap-4.5.3
+jquery-3.6.0
