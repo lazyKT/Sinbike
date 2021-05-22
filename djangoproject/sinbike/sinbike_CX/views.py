@@ -1,15 +1,21 @@
+from django.core import paginator
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from .models import Question
 from django.utils import timezone
 from .forms import QuestionForm, AnswerForm
+from django.core.paginator import Paginator
 
 def main(request):
     """
     Display List
     """
+    page = request.GET.get('page', '1')
     question_list = Question.objects.order_by('-create_date')
-    context = {'question_list': question_list}
+    # Paging
+    paginator = Paginator(question_list, 10)
+    page_obj = paginator.get_page(page)
+    context = {'question_list': page_obj}
     return render(request, 'sinbike_CX/question_list.html', context)
 
 def detail(request, question_id):
