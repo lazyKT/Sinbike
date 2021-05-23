@@ -7,23 +7,25 @@
 <div class="container my-3">
     <table class="table">
         <thead>
-        <tr class="thead-dark">
+        <tr class="text-center thead-dark">
             <th>No</th>
-            <th>Title</th>
+            <th style="width:50%">Title</th>
+            <th>Author</th>
             <th>Date</th>
         </tr>
         </thead>
         <tbody>
         {% if question_list %}
         {% for question in question_list %}
-        <tr>
+        <tr class="text-center">
             <td>{{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}</td>
-            <td>
+            <td class="text-left">
                 <a href="{% url 'support:detail' question.id %}">{{ question.subject }}</a>
                 {% if question.answer_set.count > 0 %}
                 <span class="text-danger small ml-2">{{ question.answer_set.count }}</span>
                 {% endif %}
             </td>
+            <td>{{ question.author.username }}</td>
             <td>{{ question.create_date }}</td>
         </tr>
         {% endfor %}
