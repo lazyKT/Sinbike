@@ -1,0 +1,125 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content>
+        <meta name="author" content>
+        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+        <!-- sinbike_CX CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+        <title>Hello, Sinbike!</title>
+    </head>
+    <body>
+      {% block content %}
+
+      <div class="container">
+        <header class="blog-header py-3">
+          <div class="row flex-nowrap justify-content-between align-items-center">
+            <div class="col-4 pt-1">
+              <a class="text-muted" href="#"></a>
+            </div>
+            <div class="col-4 text-center">
+              <a class="blog-header-logo text-dark" href="#">Sinbike</a>
+            </div>
+            <div class="col-4 d-flex justify-content-end align-items-center">
+              {% if user.is_authenticated %}
+              <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (Logout)</a>
+              {% else %}
+              <a class="btn btn-sm btn-outline-secondary" href="{% url 'common:login' %}">Sign up</a>
+              {% endif %}
+            </div>
+          </div>
+        </header>
+        <div class="nav-scroller py-1 mb-2">
+          <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" href="#"></a>
+            <a class="p-2 text-muted" href="{% url 'support:main' %}">Support</a>
+            <a class="p-2 text-muted" href="#">Blog</a>
+            <a class="p-2 text-muted" href="#">About Us</a>
+            <a class="p-2 text-muted" href="#"></a>
+          </nav>
+        </div>
+        <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+          <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">Sinbike</h1>
+            <p class="lead my-3">lines of texts..</p>
+            <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
+          </div>
+        </div>
+      </div>
+      <section id="features">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-8 order-lg-1 mb-5 mb-lg-0">
+                    <div class="container-fluid px-5">
+                        <div class="row gx-5">
+                            <div class="col-md-6 mb-5">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-phone icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">Device Mockups</h3>
+                                    <p class="text-muted mb-0">Ready to use HTML/CSS device mockups, no Photoshop required!</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-5">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-camera icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">Flexible Use</h3>
+                                    <p class="text-muted mb-0">Put an image, video, animation, or anything else in the screen!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-5 mb-md-0">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-gift icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">Free to Use</h3>
+                                    <p class="text-muted mb-0">As always, this theme is free to download and use for any purpose!</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-patch-check icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">Open Source</h3>
+                                    <p class="text-muted mb-0">Since this theme is MIT licensed, you can use it commercially!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </section>
+      <footer class="bg-black text-center py-5">
+        <div class="container px-5">
+            <div class="text-black-50 small">
+                <div class="mb-2">&copy; Sinbike 2021. All Rights Reserved.</div>
+                <a href="#!">Privacy</a>
+                <span class="mx-1">&middot;</span>
+                <a href="#!">Terms</a>
+                <span class="mx-1">&middot;</span>
+                <a href="#!">FAQ</a>
+            </div>
+        </div>
+    </footer>
+    </body>
+    
+    {% endblock %}
+        <!-- jQuery JS -->
+        <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+        <!-- Bootstrap JS -->
+        <script src="{% static 'bootstrap.min.js' %}"></script>
+        {% block script %}
+        {% endblock %}
+    </body>
+</html>

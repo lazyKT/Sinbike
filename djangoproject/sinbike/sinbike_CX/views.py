@@ -8,6 +8,13 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+def home(request):
+    """
+    Home
+    """
+    msg = 'My Message'
+    return render(request, 'main.html',{'message':msg})
+
 def main(request):
     """
     Display List
@@ -34,18 +41,8 @@ def answer_create(request, question_id):
     Answer
     """
     question = get_object_or_404(Question, pk=question_id)
-    if request.method == 'POST':
-        form = AnswerForm(request.POST)
-        if form.is_valid():
-            answer = form.save(commit=False)
-            answer.author = request.user
-            answer.create_date = timezone.now()
-            answer.save()
-            return redirect('support:detail', question_id=question.id)
-    else:
-        form = AnswerForm()
-    context = {'question':question, 'form':form}
-    return render(request, 'sinbike_CX/question_detail.html', context)
+    question.answer_set.create(content=request.POST.get('content'), create_date=timezone.now())
+    return redirect('support:detail', question_id=question.id)
 
 @login_required(login_url='common:login')
 def question_create(request):
