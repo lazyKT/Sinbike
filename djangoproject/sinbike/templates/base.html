@@ -5,10 +5,14 @@
         <!-- Required meta tags-->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content>
+        <meta name="author" content>
+        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
         <!-- sinbike_CX CSS -->
         <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
         <title>Hello, Sinbike!</title>
     </head>
     <body>
@@ -21,5 +25,20 @@
         <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
         <!-- Bootstrap JS -->
         <script src="{% static 'bootstrap.min.js' %}"></script>
+        {% block script %}
+        {% endblock %}
+        <!-- Footer-->
+        <footer class="bg-black text-center py-5">
+            <div class="container px-5">
+                <div class="text-black-50 small">
+                    <div class="mb-2">&copy; Sinbike 2021. All Rights Reserved.</div>
+                    <a href="#!">Privacy</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">Terms</a>
+                    <span class="mx-1">&middot;</span>
+                    <a href="#!">FAQ</a>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
