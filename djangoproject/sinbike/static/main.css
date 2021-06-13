@@ -130,3 +130,10 @@
   .blog-footer p:last-child {
     margin-bottom: 0;
   }
+
+  .jumbotron{
+    background-image: url("images/background.jpg");
+    background-size:cover;
+    text-shadow: back 0.2em 0.2em 0.2em;
+    color: white;
+  }
