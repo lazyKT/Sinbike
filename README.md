@@ -14,5 +14,4 @@ jquery-3.6.0
 Some third-party plugins that we used to build this template. Please check their licence.
 * **Bootstrap v4.5**: https://getbootstrap.com/docs/4.5/getting-started/introduction/
 * **Jquery v3.6**: https://jquery.com/download/
-* **Themify Icons**: https://themify.me/themify-icons
 * **Google Fonts**: http://fonts.google.com/
