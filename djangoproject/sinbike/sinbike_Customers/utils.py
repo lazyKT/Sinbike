@@ -23,6 +23,7 @@ def get_customer_by_id (id: int) -> object:
         return None
     return Customer.objects.filter (id=id)
 
+
 def validate_customer_request (data: dict) -> bool:
     """
     Validate the data of new customer POST request
@@ -37,3 +38,13 @@ def hash_password (password : str) -> bytes:
     hash = hashlib.sha256 ()
     hash.update (password.encode())
     return hash.digest() # 256-bit hash password
+
+
+def cmp_hashed_password (password1: str, password2: bytes) -> bool:
+    """
+    Compare Hash Passwords
+    """
+    hash = hashlib.sha256 ()
+    hash.update (password1.encode())
+    hashed_pwd = hash.digest()
+    return str(hashed_pwd) == str(password2)

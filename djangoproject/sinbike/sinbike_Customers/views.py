@@ -9,19 +9,35 @@ import json
 from datetime import datetime
 
 from .models import Customer, Transaction
-from .utils import get_customer_by_email, get_customer_by_id, validate_customer_request, hash_password
+from .utils import get_customer_by_email, get_customer_by_id, validate_customer_request, hash_password, cmp_hashed_password
 
 
 # Create your views here.
-def say_hello (resquest):
-    return HttpResponse ('Hello Customer')
+@csrf_exempt
+def customer_login (request):
+    if request.method == 'POST':
+        try:
+            login_data = json.loads (request.body)
+            customer = get_customer_by_email (login_data['email'])
+            if customer is None or len(customer) < 1:
+                return HttpResponse ('Wrong Credentials', status=403)
+            customer = customer[0]
+            if not cmp_hashed_password (login_data['password'], customer.password):
+                return HttpResponse ('Wrong Credentials', status=403)
+            return JsonResponse ({'customer': customer()}, status=200)
+        except KeyError:
+            return HttpResponse ('Malformed Data', status=400)
 
-"""
-Customers Request:
-GET all customers || Register new customer
-"""
+    return HttpResponse ('Method Not Allowed', status=400)
+
+
 @method_decorator (csrf_exempt, name='dispatch')
 class CustomerListView (generic.ListView):
+    """
+    Customers Request:
+    GET all customers || Register new customer
+    """
+
     model = Customer
     def get (self, request, *args, **kwargs):
         """
