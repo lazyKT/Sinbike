@@ -15,6 +15,14 @@ def get_customer_by_email (email: str) -> object:
     return Customer.objects.filter (email=email)
 
 
+def get_customer_by_id (id: int) -> object:
+    """
+    Get Customer by Customer ID
+    """
+    if id == None or id < 1:
+        return None
+    return Customer.objects.filter (id=id)
+
 def validate_customer_request (data: dict) -> bool:
     """
     Validate the data of new customer POST request
