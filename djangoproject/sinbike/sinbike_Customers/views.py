@@ -8,7 +8,7 @@ from django.views import generic
 import json
 
 from .models import Customer
-from .validators import get_customer_by_email, validate_customer_request
+from .utils import get_customer_by_email, validate_customer_request, hash_password
 
 
 # Create your views here.
@@ -51,10 +51,12 @@ class CustomerListView (generic.ListView):
                 # Invalid Request: incomplete data in request body
                 return HttpResponse ("Invalid Data", status=400)
             email = json_data ['email']
-            print ('email address', email)
+            # print ('email address', email)
             if len (list(get_customer_by_email (email))) > 0:
                 # customer associated to the given email is already existed
                 return HttpResponse ("Customer Already Existed", status=401)
+            # hash password
+            json_data ['password'] = hash_password (json_data['password'])
             # Create new customer
             customer = Customer.objects.create (**json_data)
             return JsonResponse (model_to_dict(customer), status=201)
