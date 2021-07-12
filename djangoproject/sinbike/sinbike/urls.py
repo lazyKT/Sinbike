@@ -23,4 +23,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('support/', include('sinbike_CX.urls')),
     path('common/', include('common.urls')),
+    path('customers/', include('sinbike_Customers.urls'))
 ]

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sinbike_CX.apps.SinbikeCxConfig',
+    'sinbike_Customers.apps.SinbikeCustomersConfig',
     'common.apps.CommonConfig',
 ]
 
