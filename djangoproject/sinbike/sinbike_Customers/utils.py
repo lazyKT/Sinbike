@@ -3,7 +3,7 @@
 """
 import hashlib
 
-from .models import Customer
+from .models import Customer, Trip
 
 
 def get_customer_by_email (email: str) -> object:
@@ -48,3 +48,12 @@ def cmp_hashed_password (password1: str, password2: bytes) -> bool:
     hash.update (password1.encode())
     hashed_pwd = hash.digest()
     return str(hashed_pwd) == str(password2)
+
+
+def get_trips_by_cust_id (cust_id: int) -> list:
+    """
+    Get Trips by  Customer ID
+    """
+    customer = get_customer_by_id (cust_id)
+    trips = Trip.objects.filter (customer=customer[0])
+    return [trip() for trip in trips]

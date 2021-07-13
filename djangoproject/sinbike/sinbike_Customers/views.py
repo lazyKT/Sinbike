@@ -8,8 +8,15 @@ from django.views import generic
 import json
 from datetime import datetime
 
-from .models import Customer, Transaction
-from .utils import get_customer_by_email, get_customer_by_id, validate_customer_request, hash_password, cmp_hashed_password
+from .models import Customer, Transaction, Trip
+from .utils import (
+    get_customer_by_email,
+    get_customer_by_id,
+    validate_customer_request,
+    hash_password,
+    cmp_hashed_password,
+    get_trips_by_cust_id
+)
 
 
 # Create your views here.
@@ -81,12 +88,13 @@ class CustomerListView (generic.ListView):
             return HttpResponse ("Malformed Data")
 
 
-"""
-Requests for single customer
-: Update/Edit, Get or Delete
-"""
 @method_decorator (csrf_exempt, name='dispatch')
 class CustomerDetailListView (generic.ListView):
+    """
+    Requests for single customer
+    : Update/Edit, Get or Delete
+    """
+
     model = Customer
 
     def get_queryset (self):
@@ -134,11 +142,12 @@ class CustomerDetailListView (generic.ListView):
         return HttpResponse (status=204)
 
 
-"""
-Transaction List
-"""
 @method_decorator (csrf_exempt, name='dispatch')
 class TransactionListView (generic.ListView):
+    """
+    Transaction List
+    """
+
     model = Transaction
 
     def get_queryset (self):
@@ -170,12 +179,13 @@ class TransactionListView (generic.ListView):
             return HttpResponse ('Malformed Data', status=400)
 
 
-"""
-Requests for single transaction
-Get or Delete
-"""
 @method_decorator (csrf_exempt, name='dispatch')
 class TransactionDetailListView (generic.ListView):
+    """
+    Requests for single transaction
+    Get or Delete
+    """
+
     model = Transaction
 
     def get_queryset (self):
@@ -199,3 +209,95 @@ class TransactionDetailListView (generic.ListView):
         transaction = self.get_queryset()
         transaction.delete ()
         return HttpResponse (status=204)
+
+
+@method_decorator (csrf_exempt, name='dispatch')
+class TripListView (generic.ListView):
+    """
+    Get All Trips
+    Create new Trip
+    """
+
+    model = Trip
+
+    def get_queryset (self):
+        return Trip.objects.all()
+
+    def get (self, request, *args, **kwargs):
+        """
+        get all trips
+        """
+        trips = self.get_queryset()
+        return JsonResponse ({'trips': [trip() for trip in trips]}, status=200)
+
+    def post (self, request, *args, **kwargs):
+        """
+        create new trip
+        """
+        try:
+            trip_data = json.loads (request.body)
+            customer_id = trip_data['cust_id']
+            # validate customer
+            customer = get_customer_by_id (customer_id)
+            if customer is None or len (customer) < 1:
+                return HttpResponse ('Unknown Customer', status=404)
+            trip_data['customer'] = customer[0] # add customer field to trip_data dictionary
+            del trip_data['cust_id'] # remove cust_id field from trip_data dictionary
+            trip = Trip.objects.create (**trip_data)
+            return JsonResponse ({'trip': trip()}, status=201)
+        except KeyError:
+            return HttpResponse ('Malformed Data', status=400)
+
+
+@method_decorator (csrf_exempt, name='dispatch')
+class TripDetailListView (generic.ListView):
+    """
+    Single Trip
+    Get Trip Details, Edit/Update, Delete
+    """
+
+    model = Trip
+
+    def get_queryset(self):
+        """
+        Get Trip by Trip ID
+        """
+        trip = get_object_or_404 (Trip, id=self.kwargs['id'])
+        return trip
+
+    def get (self, request, *args, **kwargs):
+        """
+        Get request for single trip
+        """
+        trip = self.get_queryset()
+        return JsonResponse ({'trip': trip()}, status=200)
+
+    def put (self, request, *args, **kwargs):
+        """
+        Update Trip On End
+        """
+        try:
+            end_data = json.loads (request.body)
+            trip = self.get_queryset()
+            trip.end_time = datetime.now()
+            trip.end_point = end_data['end_point'] # update end point (lat, lng)
+            trip.promo = end_data['promo'] # update promo amount
+            trip.fare = end_data['fare'] # update fare
+            trip.total = end_data['total_fare'] # update total fare
+            trip.distance = end_data['distance'] # update the distance travelled
+            trip.save()
+            return JsonResponse ({'trip': trip()}, status=201)
+        except KeyError:
+            return HttpResponse ('Malformed Data', status=400)
+
+
+def get_customer_trip (request, cust_id):
+    """
+    Get Trips By Customer ID
+    """
+    if request.method == 'GET':
+        # print ('Customer ID', cust_id)
+        trips = get_trips_by_cust_id (cust_id)
+        return JsonResponse ({'trips': trips}, status=200)
+    else:
+        return HttpResponse ('Method Not Allowed', status=400)
