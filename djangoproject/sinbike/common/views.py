@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .forms import UserForm
+from .models import FAQ
 
 
 def signup(request):
@@ -19,3 +20,11 @@ def signup(request):
     else:
         form = UserForm()
     return render(request, 'common/signup.html', {'form': form})
+
+def faq(request):
+    """
+    FAQ page
+    """
+    postlist = FAQ.objects.all()
+    return render(request, 'FAQ.html', {'postlist':postlist})
+    
