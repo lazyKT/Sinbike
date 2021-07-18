@@ -4,6 +4,14 @@ A website for Sinbike
 django==3.2
 py pip install django
 
+## Additional ThirdParty Libraries
+```
+// for ImageField of Django Model
+python3 -m pip install Pillow
+// for Image File Request and RESTAPI
+python3 -m pip install rest_framework
+```
+
 myvenv
 cd Sinbike\djangoproject\myvenv\Scripts activate
 
