@@ -2,8 +2,10 @@
  The belows functions are to validate the Http Reqeusts and Operations on Data Models
 """
 import hashlib
+import os
 
 from .models import Customer, Trip
+from sinbike import settings
 
 
 def get_customer_by_email (email: str) -> object:
@@ -57,3 +59,23 @@ def get_trips_by_cust_id (cust_id: int) -> list:
     customer = get_customer_by_id (cust_id)
     trips = Trip.objects.filter (customer=customer[0])
     return [trip() for trip in trips]
+
+
+def gen_avatar_upload_location (instance: object, filename: str) -> str:
+    """
+    generate avatar upload location
+    """
+    base, extension = os.path.splitext (filename.lower()) # get uploaded file extension
+    return f"avatars/cust_{instance.pk}{extension}"
+
+
+def save_image (image: object, filename: str) -> str:
+    """
+    save image
+    """
+    base_path = os.path.join (settings.MEDIA_ROOT, 'avatars')
+    filepath = os.path.join (base_path, filename)
+    with open (filepath, 'wb+') as f:
+        for chunk in image.chunks():
+            f.write (chunk)
+    return filepath
