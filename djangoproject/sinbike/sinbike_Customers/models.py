@@ -1,6 +1,15 @@
 from django.db import models
 from django.utils import timezone
 
+# from .utils import gen_avatar_upload_location
+
+def gen_avatar_upload_location (instance: object, filename: str) -> str:
+    """
+    generate avatar upload location
+    """
+    base, extension = os.path.splitext (filename.lower()) # get uploaded file extension
+    return f"avatars/cust_{instance.pk}{extension}"
+
 # Create your models here.
 class Customer (models.Model):
     """
@@ -11,6 +20,7 @@ class Customer (models.Model):
     password = models.BinaryField ()
     credits = models.IntegerField (default=100)
     balance = models.FloatField (default=0)
+    avatar = models.ImageField (upload_to='avatars', default='')
     created_at = models.DateTimeField (auto_now_add=True)
     updated_at = models.DateTimeField (auto_now=True)
 

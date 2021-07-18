@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'sinbike_CX.apps.SinbikeCxConfig',
     'sinbike_Customers.apps.SinbikeCustomersConfig',
     'common.apps.CommonConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # When successfully login
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# TO HANDLE FILES AND IMAGES
+MEDIA_URL = '/media/' # Base Folder for Media (files and images)
+MEDIA_ROOT = os.path.join (BASE_DIR, 'media/')

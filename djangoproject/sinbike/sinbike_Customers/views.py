@@ -5,6 +5,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import generic
 
+# import rest_framework methods and functions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import viewsets
+
+import os
 import json
 from datetime import datetime
 
@@ -15,8 +22,10 @@ from .utils import (
     validate_customer_request,
     hash_password,
     cmp_hashed_password,
-    get_trips_by_cust_id
+    get_trips_by_cust_id,
+    save_image
 )
+from .serializers import CustomerAvatarSerializer
 
 
 # Create your views here.
@@ -46,6 +55,7 @@ class CustomerListView (generic.ListView):
     """
 
     model = Customer
+
     def get (self, request, *args, **kwargs):
         """
         -> Get Customer List
@@ -140,6 +150,95 @@ class CustomerDetailListView (generic.ListView):
         customer = self.get_queryset()
         customer.delete ()
         return HttpResponse (status=204)
+
+
+# @method_decorator (csrf_exempt, name='dispatch')
+# class CustomerAvatarListView (generic.ListView):
+#     """
+#     Upload, Update, View Customer Avatar
+#     """
+#
+#     model = Customer
+#
+#     def get_queryset (self):
+#         customer = get_object_or_404 (Customer, id = self.kwargs['id'])
+#         return customer
+#
+#     def get (self, request, *args, **kwargs):
+#         """
+#         GET (view) Customer's Avatar by Customer ID
+#         """
+#         customer = self.get_queryset()
+#         print (customer.avatar)
+#         return HttpResponse ('Avatar', status=200)
+#
+#     def put (self, request, *args, **kwargs):
+#         """
+#         Upload avatar
+#         """
+#         customer = self.get_queryset()
+#         try:
+#             # image_data = json.loads (request.body)
+#             print ('avatar file type', request.body, request.FILES)
+#             # save_avatar (customer.id, request.body)
+#             return HttpResponse ('Upload Avatar', status=204)
+#         except KeyError as e:
+#             print ('KeyError', e);
+#             return HttpResponse ('Malformed Data', status=400)
+
+
+class CustomerAvatarAPIView (APIView):
+    """
+    Upload/Get Customer Avatar
+    """
+    queryset = Customer.objects.all()
+    # serializer_class = CustomerAvatarSerializer
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get_customer_by_id (self, id):
+        customer = get_object_or_404 (Customer, id=id)
+        return customer
+
+    def get (self, request, id, format=None):
+        """
+        Get Customer Avatar
+        """
+        customer = self.get_customer_by_id (id)
+        try:
+            if customer.avatar == '' or customer.avatar is None:
+                return HttpResponse ('No Avatar', status=203)
+            with open (customer.avatar.path, 'rb') as f:
+                return HttpResponse (f.read(), content_type='image/jpeg', status=200)
+        except IOError as ie:
+            return HttpResponse (ie, status=500)
+
+
+    def post (self, request, id, format=None):
+        """
+        Upload new avatar
+        """
+        # print ('request data', request.data)
+        try:
+            customer = self.get_customer_by_id (id)
+            image_data = request.data['filename']
+            base, extension = os.path.splitext (image_data.name)
+            filename = f"cust_{customer.id}{extension}"
+            avatar_location = save_image (image_data, filename)
+            customer.avatar = avatar_location
+            print ('avatar path', customer.avatar)
+            customer.updated_at = datetime.now()
+            customer.save()
+            with open (avatar_location, 'rb') as f:
+                return HttpResponse (f.read(), content_type='image/jpeg', status=200)
+        except AttributeError:
+            return HttpResponse ('Malformed Data', status=400)
+        except KeyError:
+            return HttpResponse ('Malformed Data', status=400)
+        except IOError as ie:
+            return HttpResponse (ie, status=500)
+        except Exception as e:
+            print ("Image Error", e)
+            return HttpResponse ('Error Saving Image', status=500)
 
 
 @method_decorator (csrf_exempt, name='dispatch')
