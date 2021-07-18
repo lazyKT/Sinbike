@@ -21,6 +21,7 @@ from sinbike_CX import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+    path('faq/', name='faq'),
     path('support/', include('sinbike_CX.urls')),
     path('common/', include('common.urls')),
     # forked from sinbike
