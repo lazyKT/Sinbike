@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sinbike_CX.apps.SinbikeCxConfig',
     'sinbike_Customers.apps.SinbikeCustomersConfig',
+    'sinbike_Bikes.apps.SinbikeBikesConfig',
     'common.apps.CommonConfig',
     'rest_framework'
 ]

@@ -24,5 +24,8 @@ urlpatterns = [
     path('support/', include('sinbike_CX.urls')),
     path('common/', include('common.urls')),
     # forked from sinbike
-    path('customers/', include('sinbike_Customers.urls'))
+    # Customers
+    path('customers/', include('sinbike_Customers.urls')),
+    # Bikes
+    path ('bikes/', include('sinbike_Bikes.urls'))
 ]
