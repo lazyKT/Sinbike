@@ -168,3 +168,16 @@ class ReservationDetailListView (generic.ListView):
             return JsonResponse ({'reservation': reservation()}, status=200)
         except KeyError as ke:
             return HttpResponse (ke, status=400)
+
+
+@csrf_exempt
+def get_customer_reservations (request, cust_id):
+    """
+    Get Reservations By Customer ID
+    """
+    if request.method == 'GET':
+        customer = get_customer_by_id (cust_id)
+        if customer is None:
+            return HttpResponse ('Customer Not Found!', status=404)
+        reservations = Reservation.objects.filter(customer=customer)
+        return JsonResponse ({'reservations': [r() for r in reservations]}, status=200)

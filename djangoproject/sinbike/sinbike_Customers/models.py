@@ -54,7 +54,8 @@ class Transaction (models.Model):
 
     def __str__ (self):
         cust_id = self.customer.id
-        return "customer_id: %s, amount: %.2f, type: %s" % (cust_id, self.amount, self.type)
+        transaction_datetime = (self.created_at).strftime ('%d/%m/%y %H:%M')
+        return "customer_id: %s, amount: %.2f, type: %s, DateTime: %s" % (cust_id, self.amount, self.type, transaction_datetime)
 
     def __call__ (self):
         return {
@@ -82,6 +83,11 @@ class Trip (models.Model):
     total = models.FloatField (default=0.00)
     start_time = models.DateTimeField (auto_now_add=True)
     end_time = models.DateTimeField (auto_now=True)
+
+
+    def __str__ (self):
+        trip_datetime = (self.start_time).strftime('%d/%m/%y %H:%M')
+        return 'Trip ID: %d, Customer ID: %d, DateTime: %s' % (self.id, self.customer.id, trip_datetime)
 
     def __call__ (self):
         time_taken_seconds = (self.end_time - self.start_time).total_seconds()

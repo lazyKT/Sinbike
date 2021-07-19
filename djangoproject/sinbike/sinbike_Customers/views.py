@@ -35,9 +35,8 @@ def customer_login (request):
         try:
             login_data = json.loads (request.body)
             customer = get_customer_by_email (login_data['email'])
-            if customer is None or len(customer) < 1:
+            if customer is None:
                 return HttpResponse ('Wrong Credentials', status=403)
-            customer = customer[0]
             if not cmp_hashed_password (login_data['password'], customer.password):
                 return HttpResponse ('Wrong Credentials', status=403)
             return JsonResponse ({'customer': customer()}, status=200)
@@ -86,7 +85,7 @@ class CustomerListView (generic.ListView):
                 return HttpResponse ("Invalid Data", status=400)
             email = json_data ['email']
             # print ('email address', email)
-            if len (list(get_customer_by_email (email))) > 0:
+            if get_customer_by_email (email) is not None:
                 # customer associated to the given email is already existed
                 return HttpResponse ("Customer Already Existed", status=400)
             # hash password
@@ -268,9 +267,9 @@ class TransactionListView (generic.ListView):
             customer_id = json_data ['cust_id']
             # check for valid customer
             customer = get_customer_by_id (customer_id)
-            if customer is None or len (customer) < 1:
+            if customer is None:
                 return HttpResponse ('Customer Not Found', status=404)
-            json_data['customer'] = customer[0] # add customer field to json_data dict
+            json_data['customer'] = customer # add customer field to json_data dict
             del json_data ['cust_id'] # remove customer_id field from json_data dict
             transaction = Transaction.objects.create (**json_data)
             return JsonResponse ({'transaction' : transaction()}, status=201)
@@ -338,9 +337,9 @@ class TripListView (generic.ListView):
             customer_id = trip_data['cust_id']
             # validate customer
             customer = get_customer_by_id (customer_id)
-            if customer is None or len (customer) < 1:
+            if customer is None:
                 return HttpResponse ('Unknown Customer', status=404)
-            trip_data['customer'] = customer[0] # add customer field to trip_data dictionary
+            trip_data['customer'] = customer # add customer field to trip_data dictionary
             del trip_data['cust_id'] # remove cust_id field from trip_data dictionary
             trip = Trip.objects.create (**trip_data)
             return JsonResponse ({'trip': trip()}, status=201)
@@ -396,6 +395,7 @@ def get_customer_trip (request, cust_id):
     """
     if request.method == 'GET':
         # print ('Customer ID', cust_id)
+        customer = get_customer_by_id (cust)
         trips = get_trips_by_cust_id (cust_id)
         return JsonResponse ({'trips': trips}, status=200)
     else:
