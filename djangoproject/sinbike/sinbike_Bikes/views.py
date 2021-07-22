@@ -83,6 +83,14 @@ class BikeDetailListView (generic.ListView):
         except KeyError as ke:
             return HttpResponse (ke, status=400)
 
+    def delete (self, request, *args, **kwargs):
+        """
+        Delete Bicycle
+        """
+        bike = self.get_queryset()
+        bike.delete()
+        return HttpResponse (status=204)
+
 
 @method_decorator (csrf_exempt, name='dispatch')
 class ReservationListView (generic.ListView):
