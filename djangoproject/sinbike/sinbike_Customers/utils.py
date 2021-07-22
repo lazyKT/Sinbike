@@ -14,7 +14,10 @@ def get_customer_by_email (email: str) -> object:
     """
     if email == None:
         return None
-    return Customer.objects.filter (email=email)
+    c_array = Customer.objects.filter (email=email)
+    if len(c_array) < 1:
+        return None
+    return c_array[0]
 
 
 def get_customer_by_id (id: int) -> object:
@@ -23,7 +26,10 @@ def get_customer_by_id (id: int) -> object:
     """
     if id == None or id < 1:
         return None
-    return Customer.objects.filter (id=id)
+    c_array = Customer.objects.filter (id=id)
+    if len(c_array) < 1:
+        return None
+    return c_array[0]
 
 
 def validate_customer_request (data: dict) -> bool:

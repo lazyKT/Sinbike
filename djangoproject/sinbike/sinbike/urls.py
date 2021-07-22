@@ -19,10 +19,12 @@ from sinbike_CX import views
 
 
 urlpatterns = [
+    # Customers
+    path('customers/', include('sinbike_Customers.urls')),
+    # Bikes
+    path ('bikes/', include('sinbike_Bikes.urls')),
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('support/', include('sinbike_CX.urls')),
-    path('common/', include('common.urls')),
-    # forked from sinbike
-    path('customers/', include('sinbike_Customers.urls'))
+    path('common/', include('common.urls'))
 ]
