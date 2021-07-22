@@ -5,36 +5,72 @@
     border-bottom: 1px solid #e5e5e5;
   }
   
-  .blog-header-logo {
+.blog-header-logo {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
     font-size: 2.25rem;
   }
   
-  .blog-header-logo:hover {
+.blog-header-logo:hover {
     text-decoration: none;
   }
   
-  h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
   }
   
-  .display-4 {
+.display-4 {
     font-size: 2.5rem;
   }
+
   @media (min-width: 768px) {
     .display-4 {
       font-size: 3rem;
     }
   }
-  
-  .nav-scroller {
+
+/*
+* Nav bar
+*/
+.main-nav{
+  background: #fff;
+  z-index:1;
+}
+
+.main-nav .navbar-brand{
+  padding:0;
+}
+
+.main-nav .navbar-nav .nav-item {
+  position: relative;
+  font-family: "Open Sans", sans-serif;
+}
+
+.main-nav .navbar-nav .nav-item .nav-link {
+  position: relative;
+  text-align: center;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #000;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 45px;
+}
+
+@media (max-width: 992px) {
+  .main-nav .navbar-nav .nav-item .nav-link {
+    line-height: 25px;
+  }
+}
+
+.nav-scroller {
     position: relative;
     z-index: 2;
     height: 2.75rem;
     overflow-y: hidden;
   }
   
-  .nav-scroller .nav {
+.nav-scroller .nav {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -48,95 +84,96 @@
     -webkit-overflow-scrolling: touch;
   }
   
-  .nav-scroller .nav-link {
+.nav-scroller .nav-link {
     padding-top: .75rem;
     padding-bottom: .75rem;
     font-size: .875rem;
   }
-  
-  .card-img-right {
+
+.card-img-right {
     height: 100%;
     border-radius: 0 3px 3px 0;
   }
   
-  .flex-auto {
+.flex-auto {
     -ms-flex: 0 0 auto;
     -webkit-box-flex: 0;
     flex: 0 0 auto;
   }
   
-  .h-250 { height: 250px; }
+.h-250 { height: 250px; }
   @media (min-width: 768px) {
-    .h-md-250 { height: 250px; }
+
+.h-md-250 { height: 250px; }
   }
   
-  .border-top { border-top: 1px solid #e5e5e5; }
-  .border-bottom { border-bottom: 1px solid #e5e5e5; }
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
   
-  .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
-  
-  /*
-   * Blog name and description
-   */
-  .blog-title {
+/*
+* Blog name and description
+*/
+.blog-title {
     margin-bottom: 0;
     font-size: 2rem;
     font-weight: 400;
   }
-  .blog-description {
+.blog-description {
     font-size: 1.1rem;
     color: #999;
   }
   
-  @media (min-width: 40em) {
+@media (min-width: 40em) {
     .blog-title {
       font-size: 3.5rem;
     }
   }
   
   /* Pagination */
-  .blog-pagination {
+.blog-pagination {
     margin-bottom: 4rem;
   }
-  .blog-pagination > .btn {
+.blog-pagination > .btn {
     border-radius: 2rem;
   }
   
   /*
    * Blog posts
    */
-  .blog-post {
+.blog-post {
     margin-bottom: 4rem;
   }
-  .blog-post-title {
+.blog-post-title {
     margin-bottom: .25rem;
     font-size: 2.5rem;
   }
-  .blog-post-meta {
+.blog-post-meta {
     margin-bottom: 1.25rem;
     color: #999;
   }
-  
-  /*
-   * Footer
-   */
-  .blog-footer {
+
+.blog-footer {
     padding: 2.5rem 0;
     color: #999;
     text-align: center;
     background-color: #f9f9f9;
     border-top: .05rem solid #e5e5e5;
   }
-  .blog-footer p:last-child {
+.blog-footer p:last-child {
     margin-bottom: 0;
   }
 
-  .jumbotron{
+.jumbotron{
     background-image: url("images/background.jpg");
     background-size:cover;
     text-shadow: back 0.2em 0.2em 0.2em;
     color: white;
   }
+
+/*
+* Footer
+*/
 
   .footer-main{
     padding: 92px 0;
@@ -168,3 +205,51 @@
     color: #fff;
     margin-bottom:25px;
   }
+
+  .footer-main .block-2 ul {
+  padding: 0;
+}
+
+.footer-main .block-2 ul li {
+  margin-bottom: 10px;
+  list-style: none;
+}
+
+.footer-main .block-2 ul li a {
+  font-size: 14px;
+  color: #6f6f71;
+  transition: .2s ease;
+}
+
+.footer-main .block-2 ul li a:hover {
+  color: #fff;
+}
+
+.footer-classic ul.social-icons {
+  margin-bottom: 30px;
+}
+
+@media (max-width: 480px) {
+  .footer-classic ul.social-icons li {
+    margin-bottom: 10px;
+  }
+}
+
+.footer-classic ul.social-icons li a {
+  padding: 0 20px;
+  display: block;
+}
+
+.footer-classic ul.social-icons li a i {
+  font-size: 25px;
+  color: #000;
+}
+
+.footer-classic ul.footer-links li a {
+  padding: 0 10px;
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #000;
+}
