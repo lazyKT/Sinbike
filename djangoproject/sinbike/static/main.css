@@ -28,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
     }
   }
 
+
 /*
 * Nav bar
 */
@@ -267,4 +268,118 @@ h1, h2, h3, h4, h5, h6 {
 .section-title h2{
   font-size: 35px;
   margin-bottom: 13px;
+}
+
+/* FAQ */
+.faq .block {
+  padding: 50px;
+}
+
+@media (max-width: 480px) {
+  .faq .block {
+    padding: 30px;
+  }
+}
+
+.faq .block .faq-item {
+  margin-bottom: 40px;
+}
+
+.faq .block .faq-item .faq-item-title {
+  margin-bottom: 30px;
+}
+
+.faq .block .faq-item .faq-item-title h2 {
+  font-size: 30px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.faq .block .faq-item .faq-item-title:last-child {
+  margin-bottom: 0;
+}
+
+.faq .block .faq-item .item .item-link {
+  position: relative;
+  padding: 10px 0 10px 18px;
+  padding-left: 25px;
+}
+
+.faq .block .faq-item .item .item-link a {
+  font-size: 20px;
+  color: #000;
+}
+
+.faq .block .faq-item .item .item-link a span {
+  margin-right: 5px;
+}
+
+.faq .block .faq-item .item .item-link:before {
+  font-family: 'themify';
+  content: "\e64b";
+  position: absolute;
+  left: 0;
+  font-weight: 600;
+  font-size: 15px;
+  top: 15px;
+}
+
+.faq .block .faq-item .item .accordion-block {
+  background: #fafafa;
+}
+
+.faq .block .faq-item .item .accordion-block p {
+  padding: 20px;
+}
+
+.page-title {
+  text-align: center;
+}
+
+/* Feature */
+.feature .feature-content h2,
+.feature .feature-content p {
+  margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+  .feature .feature-content h2,
+  .feature .feature-content p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .feature .testimonial {
+    text-align: center;
+  }
+}
+
+.feature .testimonial p {
+  font-family: "Lora", serif;
+  margin-bottom: 10px;
+  font-style: italic;
+  color: #242424;
+}
+
+.feature .testimonial ul.meta li {
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.feature .testimonial ul.meta li img {
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+}
+
+@media (max-width: 480px) {
+  .app-features .app-feature {
+    margin-bottom: 30px;
+  }
+}
+
+.app-features .app-explore {
+  display: flex;
+  justify-content: center !important;
+  margin-bottom: 40px;
 }
