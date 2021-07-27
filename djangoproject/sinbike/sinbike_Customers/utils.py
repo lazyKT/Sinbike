@@ -63,8 +63,26 @@ def get_trips_by_cust_id (cust_id: int) -> list:
     Get Trips by  Customer ID
     """
     customer = get_customer_by_id (cust_id)
-    trips = Trip.objects.filter (customer=customer[0])
+    trips = Trip.objects.filter (customer=customer)
     return [trip() for trip in trips]
+
+
+def get_total_distances_travelled (cust_id: int) -> int:
+    """
+    Compute total distance travelled by Customer
+    """
+    trips = get_trips_by_cust_id (cust_id)
+    distances = [t['distance'] for t in trips]
+    return sum(distances)
+
+
+def get_total_ride_time (customer: object) -> int:
+    """
+    Get Total Ride Time
+    """
+    trips = [trip() for trip in Trip.objects.filter(customer=customer)]
+    ride_minutes = [t['time_taken'] for t in trips]
+    return sum(ride_minutes)
 
 
 def gen_avatar_upload_location (instance: object, filename: str) -> str:

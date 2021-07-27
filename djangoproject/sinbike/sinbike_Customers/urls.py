@@ -17,6 +17,8 @@ urlpatterns = [
     path ('trips/', views.TripListView.as_view(), name='trips'), # trip list
     path ('trips/<int:id>', views.TripDetailListView.as_view(), name='transactions'), # single trip details
     path ('customer_trips/<int:cust_id>', views.get_customer_trip), # Customer Trips
+    path ('customer_ride_time/<int:cust_id>', views.customer_ride_time), # customer total ride minutes
+    path ('customer_distances/<int:cust_id>', views.customer_distances), # customer total distance travelled
     path ('avatar/<int:id>', views.CustomerAvatarAPIView.as_view(), name='Customers') # avatar get/upload
 ]
 
