@@ -1,19 +1,18 @@
-<nav class="navbar main-nav navbar-expand-lg px-2 px-sm-0 py-2 py-lg-0">
-    <div class="contatiner">
-        <!-- Title -->
-        <a class="navbar-brand" href="{% url 'home' %}"><img src="static/images/logo.png" alt="logo"></a>
-        <!-- Toggler/collapsible Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="ti-menu"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+<nav class="navbar main-nav navbar-expand-lg">
+    <a class="navbar-brand" href="{% url 'home' %}"><img src="media/images/logo.png" alt="logo"></a>
+    <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item @@about">
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'support:main' %}">Support</a>
             </li>
-            <li class="nav-item @@contact">
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'common:faq' %}">FAQ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact</a>
             </li>
         </ul>
         <span class="navbar-text">
@@ -26,7 +25,6 @@
                     {% endif %}
                 </li>
             </ul>
-        </span>        
-      </div>
+        </span>
     </div>
 </nav>

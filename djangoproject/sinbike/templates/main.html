@@ -20,67 +20,43 @@
 
 <body>
   {% block content %}
-  <div class="container">
-    <header class="blog-header py-3">
-      <div class="row flex-nowrap justify-content-between align-items-center">
-        <div class="col-4 pt-1">
-          <a class="text-muted" href="#"></a>
-        </div>
-        <div class="col-4 text-center">
-          <a class="blog-header-logo text-dark" href="#">Sinbike</a>
-        </div>
-        <div class="col-4 d-flex justify-content-end align-items-center">
-          {% if user.is_authenticated %}
-          <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (Logout)</a>
-          {% else %}
-          <a class="btn btn-sm btn-outline-secondary" href="{% url 'common:login' %}">Sign up</a>
-          {% endif %}
-        </div>
-      </div>
-    </header>
-    <div class="nav-scroller py-1 mb-2">
-      <nav class="nav d-flex justify-content-between">
-        <a class="p-2 text-muted" href="#"></a>
-        <a class="p-2 text-muted" href="{% url 'support:main' %}">Support</a>
-        <a class="p-2 text-muted" href="#">Blog</a>
-        <a class="p-2 text-muted" href="#">About Us</a>
-        <a class="p-2 text-muted" href="#"></a>
-      </nav>
-    </div>
-    <div class="jumbotron">
-      <div class="col-md-6 px-0">
-        <h1 class="display-4 font-italic">Sinbike</h1>
-        <p class="lead my-3">lines of texts..</p>
-        <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
-      </div>
-    </div>
-  </div>
-  <section class="section pt-0 position-relative pull-top">
+  <div class="section" id="home_main">
     <div class="container">
-      <div class="rounded shadow p-5 bg-white">
-        <div class="row">
-          <div class="col-lg-4 col-md-6 mt-5 mt-md-0 text-center">
-            <i class="ti-paint-bucket text-primary h1"></i>
-            <h3 class="mt-4 text-capitalize h5 ">NO DEPOSIT</h3>
-            <p class="regular text-muted">With no deposits to pay, renting a bicycle with SG Bike is simple and fuss free. Gather your friends and cycle the clean and green way in an affordable manner! </p>
-          </div>
-          <div class="col-lg-4 col-md-6 mt-5 mt-md-0 text-center">
-            <i class="ti-shine text-primary h1"></i>
-            <h3 class="mt-4 text-capitalize h5 ">CONVENIENT</h3>
-            <p class="regular text-muted">
-              With thousands of bicycles available around you, SG Bike makes getting around to places a lot more convenient!
-              <br>You don’t even have to worry about bicycle storage or maintenance! </p>
-          </div>
-          <div class="col-lg-4 col-md-12 mt-5 mt-lg-0 text-center">
-            <i class="ti-thought text-primary h1"></i>
-            <h3 class="mt-4 text-capitalize h5 ">HEALTHY</h3>
-            <p class="regular text-muted">Feel the breeze and get your heart pumping! Get some much needed outdoor time by simply heading somewhere with an SG Bike for a undiscovered bike view, or even just biking for fun!</p>
-            </p>
-          </div>
+      <div class="jumbotron">
+        <div class="col-md-6 px-0">
+          <h1 class="display-4 font-italic">Sinbike</h1>
+          <p class="lead my-3">lines of texts..</p>
+          <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
         </div>
       </div>
     </div>
-  </section>
+    <section class="section pt-0 position-relative pull-top">
+      <div class="container">
+        <div class="rounded shadow p-5 bg-white">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 mt-5 mt-md-0 text-center">
+              <i class="ti-paint-bucket text-primary h1"></i>
+              <h3 class="mt-4 text-capitalize h5 ">NO DEPOSIT</h3>
+              <p class="regular text-muted">With no deposits to pay, renting a bicycle with SG Bike is simple and fuss free. Gather your friends and cycle the clean and green way in an affordable manner! </p>
+            </div>
+            <div class="col-lg-4 col-md-6 mt-5 mt-md-0 text-center">
+              <i class="ti-shine text-primary h1"></i>
+              <h3 class="mt-4 text-capitalize h5 ">CONVENIENT</h3>
+              <p class="regular text-muted">
+                With thousands of bicycles available around you, SG Bike makes getting around to places a lot more convenient!
+                <br>You don’t even have to worry about bicycle storage or maintenance! </p>
+            </div>
+            <div class="col-lg-4 col-md-12 mt-5 mt-lg-0 text-center">
+              <i class="ti-thought text-primary h1"></i>
+              <h3 class="mt-4 text-capitalize h5 ">HEALTHY</h3>
+              <p class="regular text-muted">Feel the breeze and get your heart pumping! Get some much needed outdoor time by simply heading somewhere with an SG Bike for a undiscovered bike view, or even just biking for fun!</p>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </body>
 
 <section class="feature section pt-0">
@@ -89,7 +65,7 @@
 			<div class="col-lg-6 ml-auto justify-content-center">
 				<!-- Feature Mockup -->
 				<div class="image-content" data-aos="fade-right">
-					<img class="img-fluid" src="static/images/nodeposit.jpg" alt="image">
+					<img class="img-fluid" src="media/images/nodeposit.jpg" alt="image">
 				</div>
 			</div>
 			<div class="col-lg-6 mr-auto align-self-center">
@@ -124,7 +100,7 @@
 			<div class="col-lg-6 mr-auto justify-content-center">
 				<!-- Feature mockup -->
 				<div class="image-content" data-aos="fade-left">
-					<img class="img-fluid" src="static/images/convenient.jpg" alt="image">
+					<img class="img-fluid" src="media/images/convenient.jpg" alt="image">
 				</div>
 			</div>
 		</div>
