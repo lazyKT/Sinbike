@@ -23,7 +23,9 @@ from .utils import (
     hash_password,
     cmp_hashed_password,
     get_trips_by_cust_id,
-    save_image
+    save_image,
+    get_total_ride_time,
+    get_total_distances_travelled
 )
 from .serializers import CustomerAvatarSerializer
 
@@ -44,6 +46,46 @@ def customer_login (request):
             return HttpResponse ('Malformed Data', status=400)
 
     return HttpResponse ('Method Not Allowed', status=400)
+
+
+def get_customer_trip (request, cust_id):
+    """
+    Get Trips By Customer ID
+    """
+    if request.method == 'GET':
+        # print ('Customer ID', cust_id)
+        customer = get_customer_by_id (cust_id)
+        trips = get_trips_by_cust_id (cust_id)
+        return JsonResponse ({'trips': trips}, status=200)
+    else:
+        return HttpResponse ('Method Not Allowed', status=400)
+
+
+def customer_distances (request, cust_id):
+    """
+    Get Distance Travelled by Customer
+    """
+    if request.method == 'GET':
+        customer = get_customer_by_id (cust_id)
+        if customer is None:
+            return HttpResponse ('Customer Not Found!', status=404)
+        total_distance = get_total_distances_travelled (cust_id)
+        return HttpResponse (total_distance, status=200)
+
+    return HttpResponse ('Method Not Allowed', status=405)
+
+
+def customer_ride_time (request, cust_id):
+    """
+    Get Total Ride Times
+    """
+    if request.method == 'GET':
+        customer = get_customer_by_id (cust_id)
+        if customer is None:
+            return HttpResponse ('Customer Not Found!', status=404)
+        return HttpResponse (get_total_ride_time(customer), status=200)
+
+    return HttpResponse ('Method Not Allowed', status=405)
 
 
 @method_decorator (csrf_exempt, name='dispatch')
@@ -80,6 +122,7 @@ class CustomerListView (generic.ListView):
         """
         try:
             json_data = json.loads (request.body)
+            print ('json data', json_data)
             if validate_customer_request (json_data) == False:
                 # Invalid Request: incomplete data in request body
                 return HttpResponse ("Invalid Data", status=400)
@@ -151,41 +194,6 @@ class CustomerDetailListView (generic.ListView):
         return HttpResponse (status=204)
 
 
-# @method_decorator (csrf_exempt, name='dispatch')
-# class CustomerAvatarListView (generic.ListView):
-#     """
-#     Upload, Update, View Customer Avatar
-#     """
-#
-#     model = Customer
-#
-#     def get_queryset (self):
-#         customer = get_object_or_404 (Customer, id = self.kwargs['id'])
-#         return customer
-#
-#     def get (self, request, *args, **kwargs):
-#         """
-#         GET (view) Customer's Avatar by Customer ID
-#         """
-#         customer = self.get_queryset()
-#         print (customer.avatar)
-#         return HttpResponse ('Avatar', status=200)
-#
-#     def put (self, request, *args, **kwargs):
-#         """
-#         Upload avatar
-#         """
-#         customer = self.get_queryset()
-#         try:
-#             # image_data = json.loads (request.body)
-#             print ('avatar file type', request.body, request.FILES)
-#             # save_avatar (customer.id, request.body)
-#             return HttpResponse ('Upload Avatar', status=204)
-#         except KeyError as e:
-#             print ('KeyError', e);
-#             return HttpResponse ('Malformed Data', status=400)
-
-
 class CustomerAvatarAPIView (APIView):
     """
     Upload/Get Customer Avatar
@@ -205,7 +213,7 @@ class CustomerAvatarAPIView (APIView):
         customer = self.get_customer_by_id (id)
         try:
             if customer.avatar == '' or customer.avatar is None:
-                return HttpResponse ('No Avatar', status=203)
+                return HttpResponse ('No Avatar', status=204)
             with open (customer.avatar.path, 'rb') as f:
                 return HttpResponse (f.read(), content_type='image/jpeg', status=200)
         except IOError as ie:
@@ -216,10 +224,11 @@ class CustomerAvatarAPIView (APIView):
         """
         Upload new avatar
         """
-        # print ('request data', request.data)
+        print ('request data', request.data)
         try:
+            print ('request data', request.data)
             customer = self.get_customer_by_id (id)
-            image_data = request.data['filename']
+            image_data = request.data['avatar']
             base, extension = os.path.splitext (image_data.name)
             filename = f"cust_{customer.id}{extension}"
             avatar_location = save_image (image_data, filename)
@@ -228,11 +237,11 @@ class CustomerAvatarAPIView (APIView):
             customer.updated_at = datetime.now()
             customer.save()
             with open (avatar_location, 'rb') as f:
-                return HttpResponse (f.read(), content_type='image/jpeg', status=200)
+                return HttpResponse (f.read(), content_type='image/jpeg', status=201)
         except AttributeError:
-            return HttpResponse ('Malformed Data', status=400)
+            return HttpResponse ('Malformed Data (AttributeError)', status=400)
         except KeyError:
-            return HttpResponse ('Malformed Data', status=400)
+            return HttpResponse ('Malformed Data (KeyError)', status=400)
         except IOError as ie:
             return HttpResponse (ie, status=500)
         except Exception as e:
@@ -387,16 +396,3 @@ class TripDetailListView (generic.ListView):
             return JsonResponse ({'trip': trip()}, status=201)
         except KeyError:
             return HttpResponse ('Malformed Data', status=400)
-
-
-def get_customer_trip (request, cust_id):
-    """
-    Get Trips By Customer ID
-    """
-    if request.method == 'GET':
-        # print ('Customer ID', cust_id)
-        customer = get_customer_by_id (cust)
-        trips = get_trips_by_cust_id (cust_id)
-        return JsonResponse ({'trips': trips}, status=200)
-    else:
-        return HttpResponse ('Method Not Allowed', status=400)
