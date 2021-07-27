@@ -33,7 +33,7 @@ h1, h2, h3, h4, h5, h6 {
 * Nav bar
 */
 .main-nav{
-  background: #fff;
+  background: #F3F9FF;
   z-index:1;
 }
 
@@ -42,12 +42,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .main-nav .navbar-nav .nav-item {
-  position: relative;
+  position: static !important;
   font-family: "Open Sans", sans-serif;
+  
 }
 
 .main-nav .navbar-nav .nav-item .nav-link {
-  position: relative;
+  position: static;
   text-align: center;
   font-size: 13px;
   text-transform: uppercase;
@@ -62,6 +63,10 @@ h1, h2, h3, h4, h5, h6 {
   .main-nav .navbar-nav .nav-item .nav-link {
     line-height: 25px;
   }
+}
+
+.nav-item:hover{
+  background-color: #8cb0d6;
 }
 
 .nav-scroller {
@@ -115,6 +120,7 @@ h1, h2, h3, h4, h5, h6 {
 /*
 * Blog name and description
 */
+
 .blog-title {
     margin-bottom: 0;
     font-size: 2rem;
@@ -166,7 +172,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
 .jumbotron{
-    background-image: url("images/background.jpg");
+    background-image: url("/static/images/background.jpg");
     background-size:cover;
     text-shadow: back 0.2em 0.2em 0.2em;
     color: white;
@@ -268,6 +274,23 @@ h1, h2, h3, h4, h5, h6 {
 .section-title h2{
   font-size: 35px;
   margin-bottom: 13px;
+}
+
+#support-main{
+  padding: 30px 0;
+}
+
+#home_main{
+  background-image: url("/static/images/background.png");
+  background-size: contain;
+  width: 100% !important;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+}
+
+.bg-gray {
+  background: #fafafa;
 }
 
 /* FAQ */
@@ -387,4 +410,94 @@ h1, h2, h3, h4, h5, h6 {
 h2 {
   font-size: 40px;
   line-height: 50px;
+}
+
+/* SERVICES */
+.services .service-block {
+background: #fff;
+padding: 30px 40px;
+margin-bottom: 30px;
+border-radius: 5px;
+}
+
+.services .service-block:last-child {
+margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+.services .service-block:last-child {
+  margin-bottom: 30px;
+}
+}
+
+.services .service-block h3 {
+line-height: 30px;
+text-transform: capitalize;
+font-size: 16px;
+font-weight: 500;
+}
+
+.services .service-block i {
+font-size: 30px;
+color: #2e7eed;
+margin-bottom: 15px;
+display: inline-block;
+}
+
+.services .service-block p {
+margin-bottom: 0;
+font-size: 14px;
+line-height: 20px;
+}
+
+.services .app-preview {
+display: flex;
+justify-content: center !important;
+}
+
+.services .app-preview img {
+height: 500px;
+width: auto;
+}
+
+@media (max-width: 992px) {
+.services .col-lg-4.m-auto {
+  display: none;
+}
+
+.services .service-block {
+  background: #fff;
+  padding: 30px 40px;
+  margin-bottom: 30px;
+  border-radius: 5px;
+}
+
+.services .service-block:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .services .service-block:last-child {
+    margin-bottom: 30px;
+  }
+}
+
+.services .service-block h3 {
+  line-height: 30px;
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.services .service-block i {
+  font-size: 30px;
+  color: #2e7eed;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.services .service-block p {
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
 }

@@ -28,3 +28,8 @@ def faq(request):
     postlist = FAQ.objects.all()
     return render(request, 'FAQ.html', {'postlist':postlist})
     
+def about(request):
+    """
+    About page
+    """
+    return render(request, 'about.html')
