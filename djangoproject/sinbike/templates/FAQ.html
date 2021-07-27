@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 <!-- Page Title -->
-<section class="section page-title">
-  <div class="container bg-gray">
-    <div class="row">
-      <div class="col-sm-8 m-auto">
-        <!-- Page Title -->
-        <h1>You've got some questions?</h1>
-        <!-- Page Description -->
-        <p>Check out the Frequently Asked Questions below or access our Support Portal!</p>
-        <a href="{% url 'support:main' %}" class="btn btn-main-sm">Support Main</a>
-      </div>
-    </div>
-  </div>
+<section class="section page-title bg-gray">
+    <div class="container">
+		<div class="row">
+			<div class="col-sm-8 m-auto">
+				<!-- Page Title -->
+				<h1>You've got some questions?</h1>
+				<!-- Page Description -->
+				<p>Check out the Frequently Asked Questions below or access our Support Portal!</p>
+                <a href="{% url 'support:main' %}" class="btn btn-main-sm">Support Main</a>
+			</div>
+		</div>
+	</div> 
 </section>
 <!-- FAQ Section -->
 <section class="faq section pt-0">
