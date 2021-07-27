@@ -1,5 +1,6 @@
+{% load static %}
 <nav class="navbar main-nav navbar-expand-lg">
-    <a class="navbar-brand" href="{% url 'home' %}"><img src="media/images/logo.png" alt="logo"></a>
+    <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static '/images/logo.png' %}" alt="logo"></a>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -9,7 +10,7 @@
                 <a class="nav-link" href="{% url 'common:faq' %}">FAQ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="{% url 'common:about' %}">About</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="contact.html">Contact</a>

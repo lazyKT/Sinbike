@@ -172,7 +172,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
 .jumbotron{
-    background-image: url("media/images/background.jpg");
+    background-image: url("/static/images/background.jpg");
     background-size:cover;
     text-shadow: back 0.2em 0.2em 0.2em;
     color: white;
@@ -281,7 +281,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #home_main{
-  background-image: url("/media/images/background.png");
+  background-image: url("/static/images/background.png");
   background-size: contain;
   width: 100% !important;
   background-repeat: no-repeat;

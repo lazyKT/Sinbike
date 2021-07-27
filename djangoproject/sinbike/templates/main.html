@@ -9,13 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content>
   <meta name="author" content>
-  <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
   <!-- sinbike_CX CSS -->
   <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
-  <title>Hello, Sinbike!</title>
 </head>
 
 <body>
@@ -65,7 +63,7 @@
 			<div class="col-lg-6 ml-auto justify-content-center">
 				<!-- Feature Mockup -->
 				<div class="image-content" data-aos="fade-right">
-					<img class="img-fluid" src="media/images/nodeposit.jpg" alt="image">
+					<img class="img-fluid" src="{% static 'images/nodeposit.jpg' %}" alt="image">
 				</div>
 			</div>
 			<div class="col-lg-6 mr-auto align-self-center">
@@ -100,7 +98,7 @@
 			<div class="col-lg-6 mr-auto justify-content-center">
 				<!-- Feature mockup -->
 				<div class="image-content" data-aos="fade-left">
-					<img class="img-fluid" src="media/images/convenient.jpg" alt="image">
+					<img class="img-fluid" src="{% static '/images/convenient.jpg' %}" alt="image">
 				</div>
 			</div>
 		</div>
