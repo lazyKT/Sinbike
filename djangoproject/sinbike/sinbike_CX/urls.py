@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 
 from . import views
 
@@ -13,3 +15,5 @@ urlpatterns = [
     path('question/delete/<int:question_id>/', views.question_delete, name='question_delete'),
     path('answer/modify/<int:answer_id>/', views.answer_modify, name='answer_modify'),
 ]
+
+urlpatterns += static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
