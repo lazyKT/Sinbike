@@ -15,4 +15,3 @@ class Answer(models.Model):
     create_date = models.DateTimeField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     modify_date = models.DateTimeField(null=True, blank=True)
-    

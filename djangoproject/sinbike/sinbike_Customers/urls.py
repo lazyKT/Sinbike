@@ -10,6 +10,7 @@ from . import views
 
 urlpatterns = [
     path ('login/', views.customer_login), # customer login
+    path ('change_password/<int:cust_id>', views.change_password), # change password
     path ('', views.CustomerListView.as_view(), name='customers'), # customer list
     path ('<int:id>', views.CustomerDetailListView.as_view(), name='customers'), # single customer
     path ('transactions/', views.TransactionListView.as_view(), name='transactions'), # transaction list
@@ -19,6 +20,7 @@ urlpatterns = [
     path ('customer_trips/<int:cust_id>', views.get_customer_trip), # Customer Trips
     path ('customer_ride_time/<int:cust_id>', views.customer_ride_time), # customer total ride minutes
     path ('customer_distances/<int:cust_id>', views.customer_distances), # customer total distance travelled
+    path ('customer_transactions/<int:cust_id>', views.customer_transaction), # customer transactions
     path ('avatar/<int:id>', views.CustomerAvatarAPIView.as_view(), name='Customers') # avatar get/upload
 ]
 
