@@ -25,7 +25,8 @@ from .utils import (
     get_trips_by_cust_id,
     save_image,
     get_total_ride_time,
-    get_total_distances_travelled
+    get_total_distances_travelled,
+    get_transactions_by_customer
 )
 from .serializers import CustomerAvatarSerializer
 
@@ -46,6 +47,29 @@ def customer_login (request):
             return HttpResponse ('Malformed Data', status=400)
 
     return HttpResponse ('Method Not Allowed', status=400)
+
+
+@csrf_exempt
+def change_password (request, cust_id):
+    """
+    Change Password
+    """
+    if request.method == 'PUT':
+        customer = get_customer_by_id (cust_id)
+        if customer is None:
+            return HttpResponse ('Invalid Customer', status=404)
+        try:
+            json_data = json.loads (request.body)
+            if not cmp_hashed_password (json_data['old_password'], customer.password):
+                return HttpResponse ('Authentication Failed!', status=403)
+            customer.password = hash_password (json_data['new_password'])
+            customer.updated_at = datetime.now()
+            customer.save ()
+            return HttpResponse ('Password Has Been Changed Successfully!', status=203)
+        except KeyError as ke:
+            return HttpResponse (ke, status=400)
+
+    return HttpResponse ('Method Not Allowed!', status=405)
 
 
 def get_customer_trip (request, cust_id):
@@ -86,6 +110,18 @@ def customer_ride_time (request, cust_id):
         return HttpResponse (get_total_ride_time(customer), status=200)
 
     return HttpResponse ('Method Not Allowed', status=405)
+
+
+def customer_transaction (request, cust_id):
+    """
+    Get Transaction by Customer ID
+    """
+    if request.method == 'GET':
+        customer = get_customer_by_id (cust_id)
+        if customer is None:
+            return HttpResponse ('Customer Not Found!', status=404)
+        return JsonResponse ({'transactions' : get_transactions_by_customer(customer)}, status=200)
+    return HttpResponse ('Method Not Allowed!', status=405)
 
 
 @method_decorator (csrf_exempt, name='dispatch')
@@ -388,11 +424,15 @@ class TripDetailListView (generic.ListView):
             trip = self.get_queryset()
             trip.end_time = datetime.now()
             trip.end_point = end_data['end_point'] # update end point (lat, lng)
+            trip.path = end_data ['path']
             trip.promo = end_data['promo'] # update promo amount
             trip.fare = end_data['fare'] # update fare
             trip.total = end_data['total_fare'] # update total fare
             trip.distance = end_data['distance'] # update the distance travelled
+            trip.status = 'complete'
             trip.save()
             return JsonResponse ({'trip': trip()}, status=201)
-        except KeyError:
-            return HttpResponse ('Malformed Data', status=400)
+        except KeyError as ke:
+            return HttpResponse (ke, status=400)
+        except AttributeError as ae:
+            return HttpResponse (ae, status=500)

@@ -178,7 +178,6 @@ class ReservationDetailListView (generic.ListView):
             return HttpResponse (ke, status=400)
 
 
-@csrf_exempt
 def get_customer_reservations (request, cust_id):
     """
     Get Reservations By Customer ID

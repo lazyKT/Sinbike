@@ -76,11 +76,13 @@ class Trip (models.Model):
     """
     customer = models.ForeignKey (Customer, on_delete=models.CASCADE)
     start_point = models.CharField (max_length=16)
+    path = models.TextField (default="")
     end_point = models.CharField (max_length=16)
     distance = models.FloatField (default=0.00)
     fare = models.FloatField (default=0.00)
     promo = models.FloatField (default=0.00)
     total = models.FloatField (default=0.00)
+    status = models.CharField (max_length=16, default='ongoing')
     start_time = models.DateTimeField (auto_now_add=True)
     end_time = models.DateTimeField (auto_now=True)
 
@@ -90,6 +92,7 @@ class Trip (models.Model):
         return 'Trip ID: %d, Customer ID: %d, DateTime: %s' % (self.id, self.customer.id, trip_datetime)
 
     def __call__ (self):
+        trip_datetime = (self.start_time).strftime('%d/%m/%y %H:%M')
         time_taken_seconds = (self.end_time - self.start_time).total_seconds()
         time_taken_minutes = divmod (time_taken_seconds, 60)[0]
         return {
@@ -97,6 +100,8 @@ class Trip (models.Model):
             'customer_id': (self.customer).id,
             'start_point': self.start_point,
             'end_point': self.end_point,
+            'path': self.path,
+            'created_at': trip_datetime,
             'time_taken': time_taken_minutes,
             'distance': self.distance,
             'fare': self.fare,

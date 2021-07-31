@@ -21,7 +21,7 @@ class CustomerAdmin (admin.ModelAdmin):
 
 
 class TripAdmin (admin.ModelAdmin):
-    fields = ['customer', 'distance', 'total']
+    fields = ['customer', 'start_point', 'end_point', 'path' , 'status', 'distance', 'fare', 'promo', 'total']
 
     actions = ['delete_model', 'delete_queryset']
 

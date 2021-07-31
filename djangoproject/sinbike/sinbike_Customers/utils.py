@@ -4,7 +4,7 @@
 import hashlib
 import os
 
-from .models import Customer, Trip
+from .models import Customer, Trip, Transaction
 from sinbike import settings
 
 
@@ -56,6 +56,14 @@ def cmp_hashed_password (password1: str, password2: bytes) -> bool:
     hash.update (password1.encode())
     hashed_pwd = hash.digest()
     return str(hashed_pwd) == str(password2)
+
+
+def get_transactions_by_customer (customer: object) -> list:
+    """
+    Get Transactions by Customter
+    """
+    transactions = Transaction.objects.filter (customer=customer)
+    return [t() for t in transactions]
 
 
 def get_trips_by_cust_id (cust_id: int) -> list:
