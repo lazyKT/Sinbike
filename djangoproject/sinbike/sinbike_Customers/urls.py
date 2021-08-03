@@ -21,7 +21,10 @@ urlpatterns = [
     path ('customer_ride_time/<int:cust_id>', views.customer_ride_time), # customer total ride minutes
     path ('customer_distances/<int:cust_id>', views.customer_distances), # customer total distance travelled
     path ('customer_transactions/<int:cust_id>', views.customer_transaction), # customer transactions
-    path ('avatar/<int:id>', views.CustomerAvatarAPIView.as_view(), name='Customers') # avatar get/upload
+    path ('avatar/<int:id>', views.CustomerAvatarAPIView.as_view(), name='Customers'), # avatar get/upload
+    path ('reports/', views.ReportListView.as_view(), name='Reports'), # get all report or create report
+    path ('reports/<int:id>', views.ReportDetailsListView.as_view(), name='Reports'), # get single report
+    path ('reports/attachment/<int:id>', views.ReportAttachmentAPIView.as_view(), name='Attachment'), # upload report attachment
 ]
 
 
