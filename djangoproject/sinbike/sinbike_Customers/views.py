@@ -15,7 +15,7 @@ import os
 import json
 from datetime import datetime
 
-from .models import Customer, Transaction, Trip
+from .models import Customer, Transaction, Trip, Report, ReportAttachment
 from .utils import (
     get_customer_by_email,
     get_customer_by_id,
@@ -26,7 +26,8 @@ from .utils import (
     save_image,
     get_total_ride_time,
     get_total_distances_travelled,
-    get_transactions_by_customer
+    get_transactions_by_customer,
+    create_folder_if_not_exist
 )
 from .serializers import CustomerAvatarSerializer
 
@@ -209,13 +210,15 @@ class CustomerDetailListView (generic.ListView):
             return HttpResponse ('Customer Not Found', status=404)
         try:
             json_data = json.loads (request.body)
-            customer.username = json_data['username']
-            customer.email = json_data['email']
-            customer.updated_at = datetime.now ()
+            if 'username' in json_data:
+                customer.username = json_data['username']
+            if 'email' in json_data:
+                customer.email = json_data['email']
             if 'credits' in json_data:
                 customer.credits = json_data['credits']
             if 'balance' in json_data:
                 customer.balance = json_data['balance']
+            customer.updated_at = datetime.now ()
             customer.save()
             return JsonResponse ({'customer': customer()}, status=201)
         except KeyError:
@@ -228,61 +231,6 @@ class CustomerDetailListView (generic.ListView):
         customer = self.get_queryset()
         customer.delete ()
         return HttpResponse (status=204)
-
-
-class CustomerAvatarAPIView (APIView):
-    """
-    Upload/Get Customer Avatar
-    """
-    queryset = Customer.objects.all()
-    # serializer_class = CustomerAvatarSerializer
-    parser_classes = [MultiPartParser, FormParser]
-
-    def get_customer_by_id (self, id):
-        customer = get_object_or_404 (Customer, id=id)
-        return customer
-
-    def get (self, request, id, format=None):
-        """
-        Get Customer Avatar
-        """
-        customer = self.get_customer_by_id (id)
-        try:
-            if customer.avatar == '' or customer.avatar is None:
-                return HttpResponse ('No Avatar', status=204)
-            with open (customer.avatar.path, 'rb') as f:
-                return HttpResponse (f.read(), content_type='image/jpeg', status=200)
-        except IOError as ie:
-            return HttpResponse (ie, status=500)
-
-
-    def post (self, request, id, format=None):
-        """
-        Upload new avatar
-        """
-        print ('request data', request.data)
-        try:
-            print ('request data', request.data)
-            customer = self.get_customer_by_id (id)
-            image_data = request.data['avatar']
-            base, extension = os.path.splitext (image_data.name)
-            filename = f"cust_{customer.id}{extension}"
-            avatar_location = save_image (image_data, filename)
-            customer.avatar = avatar_location
-            print ('avatar path', customer.avatar)
-            customer.updated_at = datetime.now()
-            customer.save()
-            with open (avatar_location, 'rb') as f:
-                return HttpResponse (f.read(), content_type='image/jpeg', status=201)
-        except AttributeError:
-            return HttpResponse ('Malformed Data (AttributeError)', status=400)
-        except KeyError:
-            return HttpResponse ('Malformed Data (KeyError)', status=400)
-        except IOError as ie:
-            return HttpResponse (ie, status=500)
-        except Exception as e:
-            print ("Image Error", e)
-            return HttpResponse ('Error Saving Image', status=500)
 
 
 @method_decorator (csrf_exempt, name='dispatch')
@@ -436,3 +384,188 @@ class TripDetailListView (generic.ListView):
             return HttpResponse (ke, status=400)
         except AttributeError as ae:
             return HttpResponse (ae, status=500)
+
+
+@method_decorator (csrf_exempt, name = 'dispatch')
+class ReportListView (generic.ListView):
+    """
+    GET report lists. Create New Report
+    """
+
+    model = Report
+
+    def get_queryset (self):
+        return Report.objects.all()
+
+    def get (self, request, *args, **kwargs):
+        """
+        Get all reports
+        """
+        reports = self.get_queryset()
+        return JsonResponse ({'reports': [report() for report in reports]}, status=200)
+
+    def post (self, request, *args, **kwargs):
+        """
+        Create new report
+        """
+        try:
+            json_data = json.loads (request.body)
+            customer = get_customer_by_id (json_data['customer'])
+            if customer is None:
+                return HttpResponse ('Customer not Found!', status=404)
+            json_data['customer'] = customer
+            report = Report.objects.create (**json_data)
+            return JsonResponse ({'report': report()}, status=201)
+
+        except KeyError as ke:
+            return HttpResponse (ke, status=400)
+        except AttributeError as ae:
+            return HttpResponse (ae, status=500)
+        except:
+            return HttpResponse (status=500)
+
+
+@method_decorator (csrf_exempt, name = 'dispatch')
+class ReportDetailsListView (generic.ListView):
+    """
+    GET/PUT requests for single report
+    """
+
+    def get_queryset (self):
+        """
+        Get report by id
+        """
+        report = get_object_or_404 (Report, id=self.kwargs['id'])
+        return report
+
+    def get (self, request, *args, **kwargs):
+        """
+        GET request for single report by id
+        """
+        report = self.get_queryset()
+        return JsonResponse ({'report': report()}, status=200)
+
+    def put (self, request, *args, **kwargs):
+        """
+        Edit report
+        """
+        try:
+            json_data = json.loads (request.body)
+            customer = get_customer_by_id (json_data['customer'])
+            if customer is None:
+                return HttpResponse ('Customer not Found!', status=404)
+            report = self.get_queryset()
+            report.subject = json_data['subject']
+            report.body = json_data['body']
+            report.type = json_data['type']
+            report.save()
+            return JsonResponse ({'report': report()}, status=200)
+
+        except KeyError as ke:
+            return HttpResponse (ke, status=400)
+        except AttributeError as ae:
+            return HttpResponse (ae, status=500)
+        except:
+            return HttpResponse (status=500)
+
+
+class CustomerAvatarAPIView (APIView):
+    """
+    Upload/Get Customer Avatar
+    """
+    queryset = Customer.objects.all()
+    # serializer_class = CustomerAvatarSerializer
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get_customer_by_id (self, id):
+        customer = get_object_or_404 (Customer, id=id)
+        return customer
+
+    def get (self, request, id, format=None):
+        """
+        Get Customer Avatar
+        """
+        customer = self.get_customer_by_id (id)
+        try:
+            if customer.avatar == '' or customer.avatar is None:
+                return HttpResponse ('No Avatar', status=204)
+            with open (customer.avatar.path, 'rb') as f:
+                return HttpResponse (f.read(), content_type='image/jpeg', status=200)
+        except IOError as ie:
+            return HttpResponse (ie, status=500)
+
+
+    def post (self, request, id, format=None):
+        """
+        Upload new avatar
+        """
+        print ('request data', request.data)
+        try:
+            print ('request data', request.data)
+            customer = self.get_customer_by_id (id)
+            image_data = request.data['avatar']
+            base, extension = os.path.splitext (image_data.name)
+            filename = f"cust_{customer.id}{extension}"
+            avatar_location = save_image (image_data, filename, 'avatars')
+            customer.avatar = avatar_location
+            print ('avatar path', customer.avatar)
+            customer.updated_at = datetime.now()
+            customer.save()
+            with open (avatar_location, 'rb') as f:
+                return HttpResponse (f.read(), content_type='image/jpeg', status=201)
+        except AttributeError:
+            return HttpResponse ('Malformed Data (AttributeError)', status=400)
+        except KeyError:
+            return HttpResponse ('Malformed Data (KeyError)', status=400)
+        except IOError as ie:
+            return HttpResponse (ie, status=500)
+        except Exception as e:
+            print ("Image Error", e)
+            return HttpResponse ('Error Saving Image', status=500)
+
+
+class ReportAttachmentAPIView (APIView):
+    """
+    GET/POST Report Attachments
+    """
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get_report_by_id (self, id):
+        report = get_object_or_404 (Report, id=id)
+        return report
+
+    def get_attachments_by_report (self, report):
+        attachments = ReportAttachment.objects.filter (report=report)
+        return attachments
+
+    def get (self, request, id, format=None):
+        """
+        Get Attachments by Report ID
+        """
+        report = self.get_report_by_id (id)
+        attachments = self.get_attachments_by_report (report)
+        return JsonResponse ({'attachments': [attachment() for attachment in attachments]}, status=200)
+
+
+
+    def post (self, request, id, format=None):
+        """
+        Upload attachment for Report
+        """
+        try:
+            report = self.get_report_by_id (id)
+            if report is None:
+                return HttpResponse ('Report Not Found!', status=404)
+            image_data = request.data['attachment']
+            base, extension = os.path.splitext (image_data.name)
+            attachment_name = f"{datetime.now().strftime('%d-%m-%y-%H-%M-%S-%f')}.{extension}"
+            save_location = save_image (image_data, attachment_name, 'reports')
+            attachment = f"media{save_location.split('media')[1]}"
+            ReportAttachment.objects.create (report=report, attachment=attachment)
+            return HttpResponse (status=201)
+
+        except KeyError as ke:
+            return HttpResponse (ke, status=400)
+        except Exception as e:
+            print ("Image Error", e)
+            return HttpResponse (e, status=500)

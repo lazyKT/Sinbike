@@ -111,3 +111,39 @@ class Trip (models.Model):
 
     class Meta:
         ordering = ['start_time']
+
+
+class Report (models.Model):
+    """
+     Customer Report
+    """
+    customer = models.ForeignKey (Customer, on_delete=models.CASCADE)
+    type = models.CharField (max_length=32)
+    subject = models.TextField ()
+    body = models.TextField ()
+    created_at = models.DateTimeField (auto_now_add=True)
+
+    def __str__ (self):
+        created_at_str = (self.created_at).strftime ('%d/%m/%y %H:%M')
+        return 'Report ID: %d, Topic: %s, Time: %s' % (self.id, self.type, created_at_str)
+
+    def __call__ (self):
+        created_at_str = (self.created_at).strftime ('%d/%m/%y %H:%M')
+        return {
+            'id' : self.id,
+            'type' : self.type,
+            'subject' : self.subject,
+            'body' : self.body,
+            'created_at' : created_at_str
+        }
+
+
+class ReportAttachment (models.Model):
+    """
+     Report Attachments
+    """
+    report = models.ForeignKey (Report, on_delete=models.CASCADE)
+    attachment = models.ImageField (upload_to='reports/')
+
+    def __call__ (self):
+        return self.attachment.name

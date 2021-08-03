@@ -93,6 +93,19 @@ def get_total_ride_time (customer: object) -> int:
     return sum(ride_minutes)
 
 
+def create_folder_if_not_exist (folder: str, location = settings.MEDIA_ROOT) -> bool:
+    """
+    Check whether the folder is existed or not at the given location,
+    If not exist, create one
+    """
+    new_folder_path = os.path.join (location, folder)
+    if os.path.isdir (new_folder_path):
+        return None
+    os.makedirs (new_folder_path)
+    return new_folder_path
+
+
+
 def gen_avatar_upload_location (instance: object, filename: str) -> str:
     """
     generate avatar upload location
@@ -101,11 +114,11 @@ def gen_avatar_upload_location (instance: object, filename: str) -> str:
     return f"avatars/cust_{instance.pk}{extension}"
 
 
-def save_image (image: object, filename: str) -> str:
+def save_image (image: object, filename: str, save_location: str) -> str:
     """
     save image
     """
-    base_path = os.path.join (settings.MEDIA_ROOT, 'avatars')
+    base_path = os.path.join (settings.MEDIA_ROOT, save_location)
     filepath = os.path.join (base_path, filename)
     with open (filepath, 'wb+') as f:
         for chunk in image.chunks():
