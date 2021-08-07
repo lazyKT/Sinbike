@@ -1,5 +1,17 @@
 /* stylelint-disable selector-list-comma-newline-after */
 
+@import url("https://fonts.googleapis.com/css?family=Lora:400,400i|Open+Sans:300,400,600,700,800");
+body, p, a, li {
+  font-family: "Open Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans", sans-serif;
+  color: #000;
+  font-weight: 300;
+}
+
 .blog-header {
     line-height: 1;
     border-bottom: 1px solid #e5e5e5;
@@ -305,11 +317,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .faq .block .faq-item {
-  margin-bottom: 40px;
+  margin-bottom: 15px;
+  line-height: 200%;
 }
 
 .faq .block .faq-item .faq-item-title {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .faq .block .faq-item .faq-item-title h2 {

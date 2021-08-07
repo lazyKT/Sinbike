@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from sinbike_CX import views
 from django.conf.urls.static import static
@@ -23,6 +24,10 @@ from django.conf import settings
 urlpatterns = [
     # Customers
     path('customers/', include('sinbike_Customers.urls')),
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset_done/', auth_views.PasswordChangeDoneView.as_view(), name='password_reset_done'),
+    path('password_reset_confirm/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     # Bikes
     path ('bikes/', include('sinbike_Bikes.urls')),
     path('admin/', admin.site.urls),
