@@ -39,9 +39,6 @@ h1, h2, h3, h4, h5, h6 {
       font-size: 3rem;
     }
   }
-#jumborton_title{
-  color:white;
-}
 
 /*
 * Nav bar
@@ -434,90 +431,23 @@ h2 {
 
 /* SERVICES */
 .services .service-block {
-background: #fff;
-padding: 30px 40px;
-margin-bottom: 30px;
-border-radius: 5px;
-}
-
-.services .service-block:last-child {
-margin-bottom: 0;
-}
-
-@media (max-width: 480px) {
-.services .service-block:last-child {
-  margin-bottom: 30px;
-}
-}
-
-.services .service-block h3 {
-line-height: 30px;
-text-transform: capitalize;
-font-size: 16px;
-font-weight: 500;
-}
-
-.services .service-block i {
-font-size: 30px;
-color: #2e7eed;
-margin-bottom: 15px;
-display: inline-block;
-}
-
-.services .service-block p {
-margin-bottom: 0;
-font-size: 14px;
-line-height: 20px;
-}
-
-.services .app-preview {
-display: flex;
-justify-content: center !important;
-}
-
-.services .app-preview img {
-height: 500px;
-width: auto;
-}
-
-@media (max-width: 992px) {
-.services .col-lg-4.m-auto {
-  display: none;
-}
-
-.services .service-block {
   background: #fff;
-  padding: 30px 40px;
+  padding: 30px 35px;
   margin-bottom: 30px;
   border-radius: 5px;
 }
 
-.services .service-block:last-child {
-  margin-bottom: 0;
-}
-
-@media (max-width: 480px) {
-  .services .service-block:last-child {
-    margin-bottom: 30px;
-  }
-}
-
-.services .service-block h3 {
+.services .service-block h2 {
   line-height: 30px;
   text-transform: capitalize;
-  font-size: 16px;
+  font-size: 35px;
   font-weight: 500;
-}
-
-.services .service-block i {
-  font-size: 30px;
-  color: #2e7eed;
-  margin-bottom: 15px;
-  display: inline-block;
+  font-family: "Open Sans", sans-serif;
 }
 
 .services .service-block p {
   margin-bottom: 0;
   font-size: 14px;
   line-height: 20px;
+  font-family: "Open Sans", sans-serif;
 }

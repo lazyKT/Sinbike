@@ -1,5 +1,88 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
 
-{% block content %}
+<section class="section page-title" id="support-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 m-auto">
+                <!-- Page Title -->
+                <h1>What do you need help with?</h1>
+                <!-- Page Description -->
+                <p>Feel free to submit your question!</p>
+                <p>Make sure to check our FAQ page too!</p>
+                <a href="{% url 'common:faq' %}" class="btn btn-main-sm">FAQ</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+=            Services            =
+===============================-->
+<section class="services section bg-gray" id="support-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 align-self-center">
+                <!-- Service 01 -->
+                <div class="service-block shadow">
+                    <h2>Account</h2>
+                    <ul>
+                        <li><a href="{% url 'common:signup' %}" class="btn btn-main-sm">How do I create my account?</a></li>
+                        <li><a href="{% url 'common:faq' %}#accountAccordion5" class="btn btn-main-sm">I lost my password</a></li>
+                    
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 align-self-center">
+                <!-- Service 02 -->
+                <div class="service-block shadow">
+                    <h2>Transaction</h2>
+                    <ul>
+                        <li><a href="{% url 'common:faq' %}#accountAccordion4" class="btn btn-main-sm">How to top-up my account wallet?</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 align-self-center">
+                <!-- Service 03 -->
+                <div class="service-block shadow">
+                    <h2>Damaged</h2>
+                    <ul>
+                        <li><a href="{% url 'support:question_create' %}" class="btn btn-main-sm">I want to report faulty bike</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 align-self-center">
+                <!-- Service 04 -->
+                <div class="service-block shadow">
+                    <h2>About</h2>
+                    <ul>
+                        <li><a href="{% url 'common:about' %}" class="btn btn-main-sm">I want to know more about SinBike</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center ">
+            <p>Still cannot find answer?   <br>
+                <a href="{% url 'support:question_create' %}" class="btn btn-primary">Create Ticket</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <p> Contacted us before? <br>   <a href="{% url 'support:list' %}" class="btn btn-primary">Submitted Tickets</a></p>
+        </div>
+    </div>
+</div>
+
+<!--====  End of Services  ====-->
+
+{% endblock %}

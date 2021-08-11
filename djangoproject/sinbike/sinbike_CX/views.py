@@ -17,7 +17,13 @@ def home(request):
 
 def main(request):
     """
-    Display List
+    Support main
+    """
+    return render(request, 'sinbike_CX/support_main.html')
+
+def list(request):
+    """
+    Display Question List
     """
     page = request.GET.get('page', '1')
     question_list = Question.objects.order_by('-create_date')
