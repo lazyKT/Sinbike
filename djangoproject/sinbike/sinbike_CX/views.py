@@ -85,7 +85,7 @@ def question_modify(request, question_id):
             question.author = request.user
             question.modify_date = timezone.now()
             question.save()
-            return redirect('support:main', question_id=question.id)
+            return redirect('support:detail', question_id=question.id)
     else:
         form = QuestionForm(instance=question)
     context = {'form':form}
